@@ -11,8 +11,8 @@ import android.graphics.Rect;
 public class Vaccine {
     public int speed=20;
     int x=0,y,width,height;
-    Bitmap vaccine;
-    Vaccine (Resources res)
+    Bitmap vaccine; private GameView gameView;
+    Vaccine (GameView gameView, int screenY, Resources res)
     {
         vaccine = BitmapFactory.decodeResource(res,R.drawable.covidkiller);
 

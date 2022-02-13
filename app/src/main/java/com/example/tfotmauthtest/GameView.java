@@ -13,28 +13,36 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class GameView extends SurfaceView implements  Runnable {
-    boolean isPlaying;
+
     private Thread thread;
-    private Background background1, background2;
-    private int screenX, screenY;
+    private Random random;
     public static float screenRatioX, screenRatioY;
+    // OBJECTS
+    private Background background1, background2;
     private Paint paint;
     private Character character;
+    private slash slash;
     private Virus[] viruses;
     private Mask[] masks;
     private Vaccine vaccine;
+    //BOOLEAN
+    boolean isPlaying;
     private boolean isGameOver=false;
     private boolean isCollected=false;
     private boolean unlockvaccine=false;
-    private Random random;
+    private boolean unlockslash=false;
+    private boolean activateslash=false;
+    boolean TimerAlreadyExists=false;
+    // INT
+    private int screenX, screenY;
     private int  hearts=3;
     private int extrahearts;
-    private int score;
-    boolean TimerAlreadyExists=false;
+    private int score=0;
 
 
 
-    public GameView(Context context, int screenX, int screenY) {
+
+    public GameView(Context context, int screenX, int screenY) { // note: I need explanation for the usage of this.
         super(context);
         this.screenX = screenX;
         this.screenY = screenY;
@@ -47,6 +55,8 @@ public class GameView extends SurfaceView implements  Runnable {
         character = new Character(this, screenY, getResources());
         viruses=new Virus[2];
         masks=new Mask[2];
+        vaccine= new Vaccine(this,screenY,getResources());
+        slash= new slash(this,screenY,getResources());
 
     }
 
@@ -149,9 +159,15 @@ public class GameView extends SurfaceView implements  Runnable {
 
         if (character.isJumping)           // BEGIN: jump
             character.y -= 30 * screenRatioY;
-        else
+        else{
+            while(character.y>-300)
+            {
             character.y += 30 * screenRatioY; // this will make the charcter fall
-        if(character.y<150) // tjis is to limit his jump
+            }
+            if(character.y<-300) // in case the character got below -300 on y axis it returns him on -300 on y axis
+                character.y=-300;
+        }
+        if(character.y<150) // this is to limit his jump
             character.isJumping=false;
       /*  if (character.y < screenY / 2) //original: (character.y<0) the changes were to make the character jump height limit to the middle of the screen.
            character.y = 0;  I see no use for this yet */
@@ -173,8 +189,7 @@ public class GameView extends SurfaceView implements  Runnable {
                 virus.x=screenX;
                  virus.y=300;
                 virus.wasHit=false;
-
-
+                // Virus touches character
                 if (Rect.intersects(virus.getCollisionShape(),character.getCollisionShape()))// death
                 {
                     if(extrahearts >1&&character.isJumping==true) {
@@ -182,7 +197,7 @@ public class GameView extends SurfaceView implements  Runnable {
                         virus.x = -500;
                         score+=10;
 
-                     //   virus.wasHit = true; // still no usage for it
+
                     }
                     else if(character.isJumping==false) {
                         if (extrahearts >= 1) {
@@ -198,6 +213,10 @@ public class GameView extends SurfaceView implements  Runnable {
                         }
                     }
                 }
+                // Virus touches slash
+                if(Rect.intersects(virus.getCollisionShape(),slash.getCollisionShape())){
+                    virus.x=-500;
+                }
             }
 
         }
@@ -212,6 +231,7 @@ public class GameView extends SurfaceView implements  Runnable {
                   mask.y=300;
                 if (Rect.intersects(mask.getCollisionShape(),character.getCollisionShape()))
                 {
+                    score+=10;
                     extrahearts++;
                     isCollected=true;
                     MaskTimer();
@@ -229,6 +249,19 @@ public class GameView extends SurfaceView implements  Runnable {
             //here im trying to set the vaccine at the right side of the screen
             if(Rect.intersects(vaccine.getCollisionShape(),character.getCollisionShape()))
                 return; // this when you finish the level
+
+        }
+
+        // SLASH  SECTION
+        if(score>=250)
+        {
+            unlockslash=true;
+            if(unlockslash&&activateslash)
+            {
+                 slash.x= character.x;
+                 slash.y= character.y;
+                 slash.x-=45;
+            }
         }
     }
 
@@ -259,8 +292,8 @@ public class GameView extends SurfaceView implements  Runnable {
                 break;
             case MotionEvent.ACTION_UP:
                 character.isJumping=false;
-             /*   if(event.getX()>screenX/2) // might use later...
-                   flight.toShoot++;         */
+                if(event.getX()>screenX/2)
+                 activateslash=true;
                 break;
         }
         return true;
