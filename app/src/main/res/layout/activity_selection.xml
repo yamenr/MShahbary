@@ -11,14 +11,19 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/selection" />
+
     <Button
         android:id="@+id/button"
-        android:onClick="Start"
         android:layout_width="179dp"
         android:layout_height="71dp"
         android:layout_marginStart="276dp"
         android:layout_marginTop="110dp"
+        android:backgroundTint="#E40000"
+        android:onClick="Start"
         android:text="start"
+        android:textColor="#FAFAFA"
+        android:textColorHighlight="#00FFFFFF"
+        android:textColorLink="#D60606"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,8 +32,9 @@
         android:layout_width="179dp"
         android:layout_height="71dp"
         android:layout_marginStart="276dp"
-        android:text="tutorial"
+        android:backgroundTint="#E40000"
         android:onClick="GotoTutorial"
+        android:text="tutorial"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
@@ -37,8 +43,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="365dp"
-        android:text="Back"
+        android:backgroundTint="#E40000"
         android:onClick="GotoLogin"
+        android:text="Back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -10,23 +10,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TFOTMAuthTest">
         <activity
-            android:name=".Tutorial1"
+            android:name=".Signup"
             android:exported="false" />
         <activity
+            android:name=".Tutorial1"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".MainGame"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Test"
             android:exported="false" />
         <activity
             android:name=".GameActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Selection"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TFOTM auth test</string>
+    <string name="successfully_registered" />
 </resources>
