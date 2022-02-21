@@ -42,7 +42,7 @@
         android:id="@+id/etUsernameSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="٧٦dp"
+        android:layout_marginTop="76dp"
         android:backgroundTint="#E40000"
         android:ems="10"
         android:hint="username..."

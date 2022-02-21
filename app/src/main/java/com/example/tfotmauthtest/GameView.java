@@ -42,8 +42,8 @@ public class GameView extends SurfaceView implements  Runnable {
 
 
 
-    public GameView(Context context, int screenX, int screenY) { // note: I need explanation for the usage of this.
-        super(context);
+    public GameView(GameActivity activity, int screenX, int screenY) { // note: I need explanation for the usage of this.
+        super(activity);
         this.screenX = screenX;
         this.screenY = screenY;
         screenRatioX = 1920f / screenX;
@@ -57,6 +57,7 @@ public class GameView extends SurfaceView implements  Runnable {
         masks=new Mask[2];
         vaccine= new Vaccine(this,screenY,getResources());
         slash= new slash(this,screenY,getResources());
+        random=new Random();
 
     }
 
@@ -80,7 +81,7 @@ public class GameView extends SurfaceView implements  Runnable {
             @Override
             public void onTick(long l) {
                 String sDuration=String.format(Locale.ENGLISH,"%02d:%02",TimeUnit.MILLISECONDS.toMinutes(l),TimeUnit.MILLISECONDS.toSeconds(l)-TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(l)));
-                //textView.setText(sDuration);
+                //textView.setText(sDuration); No Use
                 TimerAlreadyExists=true;
 
             }
