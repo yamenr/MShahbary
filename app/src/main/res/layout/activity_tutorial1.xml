@@ -31,5 +31,5 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/tutoriall1"
         tools:layout_editor_absoluteX="265dp"
-        tools:layout_editor_absoluteY="٠dp" />
+        tools:layout_editor_absoluteY="0dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

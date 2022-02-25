@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TFOTMAuthTest">
         <activity
+            android:name=".Tutorial4"
+            android:exported="false" />
+        <activity
+            android:name=".Tutorial3"
+            android:exported="false" />
+        <activity
             android:name=".Tutorial2"
             android:exported="false" />
         <activity
