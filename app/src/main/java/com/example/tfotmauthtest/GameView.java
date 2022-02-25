@@ -39,9 +39,6 @@ public class GameView extends SurfaceView implements  Runnable {
     private int extrahearts;
     private int score=0;
 
-
-
-
     public GameView(GameActivity activity, int screenX, int screenY) { // note: I need explanation for the usage of this.
         super(activity);
         this.screenX = screenX;

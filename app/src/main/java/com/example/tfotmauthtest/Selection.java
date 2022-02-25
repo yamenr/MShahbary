@@ -12,10 +12,11 @@ public class Selection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
+        getSupportActionBar().hide();
     }
 
     public void Start(View view) {
-        Intent i = new Intent(this, MainGame.class);
+        Intent i = new Intent(this, GameActivity.class);
         startActivity(i);
 
     }
