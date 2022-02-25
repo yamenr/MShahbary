@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#050505"
-    android:foregroundTint="#000000"
-    tools:context=".Tutorial1">
-
+    tools:context=".Tutorial2">
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
@@ -32,4 +29,5 @@
         app:srcCompat="@drawable/tutoriall1"
         tools:layout_editor_absoluteX="265dp"
         tools:layout_editor_absoluteY="٠dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
