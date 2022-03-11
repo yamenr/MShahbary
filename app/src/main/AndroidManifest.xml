@@ -7,8 +7,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.TFOTMAuthTest">
+        android:supportsRtl="true">
+        <!--android:theme="@style/Theme.TFOTMAuthTest"-->
         <activity
             android:name=".Tutorial4"
             android:exported="false" />
@@ -30,14 +30,17 @@
             android:exported="false" />
         <activity
             android:name=".GameActivity"
+            android:theme="@style/Theme.AppCompat.Light"
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
             android:name=".Selection"
+            android:theme="@style/Theme.AppCompat.Light"
             android:exported="false"
             android:screenOrientation="landscape" />
         <activity
             android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light"
             android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>

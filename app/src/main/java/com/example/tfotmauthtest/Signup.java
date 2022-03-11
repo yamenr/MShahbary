@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,16 +18,18 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.UUID;
 
 public class Signup extends AppCompatActivity {
 
     private EditText etUsername,etPassword;
-
+    private static final String TAG = "Signup";
     private Utilities utils;
     private FirebaseServices fbs;
     private ImageView ivSignup;
@@ -42,6 +45,10 @@ public class Signup extends AppCompatActivity {
     }
 
     private void connectComponents() {
+        ImageView photo = findViewById(R.id.ivSignup);
+        Picasso.with(this)
+                .load("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+                .into(photo);
         etUsername = findViewById(R.id.etUsernameSignup);
         etPassword = findViewById(R.id.etPasswordSignup);
         utils = Utilities.getInstance();
@@ -51,6 +58,10 @@ public class Signup extends AppCompatActivity {
     }
 
     public void signup(View view) {
+        String photo;
+        if (ivSignup.getDrawable() == null)
+            photo = "no_image";
+        else photo = storageReference.toString();
 
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
@@ -73,7 +84,22 @@ public class Signup extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Signup.this,R.string.successfully_registered, Toast.LENGTH_SHORT).show();//note: this R.string im not sure about it
-
+                            // TODO: User class,
+                            User user = new User(username, photo);
+                            fbs.getFire().collection("restaurants")
+                                    .add(user)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error adding document", e);
+                                        }
+                                    });
                         } else {
                             // TODO: what to do if fails
 
