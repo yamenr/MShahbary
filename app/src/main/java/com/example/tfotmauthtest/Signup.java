@@ -86,7 +86,7 @@ public class Signup extends AppCompatActivity {
                             Toast.makeText(Signup.this,R.string.successfully_registered, Toast.LENGTH_SHORT).show();//note: this R.string im not sure about it
                             // TODO: User class,
                             User user = new User(username, photo);
-                            fbs.getFire().collection("restaurants")
+                            fbs.getFire().collection("users")
                                     .add(user)
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override
