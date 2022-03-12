@@ -9,6 +9,7 @@ import android.view.WindowManager;
 public class GameActivity extends AppCompatActivity {
     private GameView gameView;
     private  AbeerView abeerView;
+    private Aboora aboora;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +22,7 @@ public class GameActivity extends AppCompatActivity {
 
     gameView = new GameView(this, point.x, point.y); // this is to get our size of the screen on Xand Y axis
    abeerView= new AbeerView(this);
-    setContentView(abeerView); // this is to show our gameview
+    setContentView(gameView); // this is to show our gameview
 }
 
     @Override

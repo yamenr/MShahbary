@@ -30,9 +30,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
-
         android:backgroundTint="#E40000"
+        android:onClick="GotoLogin"
         android:text="creat account"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +63,7 @@
         android:layout_marginStart="148dp"
         android:layout_marginTop="36dp"
         android:layout_marginBottom="26dp"
-        android:background="#E40000"
+        android:background="#63E40000"
         android:onClick="SelectPfp"
         android:src="@drawable/ic_launcher_foreground"
         app:layout_constraintBottom_toTopOf="@+id/btnSignupSignup"
@@ -83,4 +84,5 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPasswordSignup" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

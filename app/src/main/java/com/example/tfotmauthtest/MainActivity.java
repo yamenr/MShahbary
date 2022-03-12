@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!utils.correctuser(username) || !utils.correctpass(password))
         {
-            Toast.makeText(this, "Incorrect email or password!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Incorrect username or password!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -117,9 +117,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void GotoSelection(View view) {
+    public void GotoSignUp(View view) {
 
-        Intent i = new Intent(this, Selection.class);
+        Intent i = new Intent(this, Signup.class);
         startActivity(i);
     }
 }

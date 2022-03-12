@@ -10,20 +10,28 @@
         android:supportsRtl="true">
         <activity
             android:name=".Aboora"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light" />
         <!-- android:theme="@style/Theme.TFOTMAuthTest" -->
+
         <activity
             android:name=".Tutorial4"
+            android:screenOrientation="landscape"
             android:exported="false" />
         <activity
             android:name=".Tutorial3"
+            android:screenOrientation="landscape"
             android:exported="false" />
         <activity
             android:name=".Tutorial2"
+            android:screenOrientation="landscape"
             android:exported="false" />
         <activity
             android:name=".Signup"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light"/>
         <activity
             android:name=".Tutorial1"
             android:exported="false"
