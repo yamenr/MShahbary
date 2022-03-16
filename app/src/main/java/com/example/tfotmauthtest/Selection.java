@@ -16,7 +16,7 @@ public class Selection extends AppCompatActivity {
     }
 
     public void Start(View view) {
-        Intent i = new Intent(this, Aboora.class);
+        Intent i = new Intent(this, GameActivity.class);
         startActivity(i);
 
     }

@@ -20,26 +20,25 @@ public class Character {
         Character2 = BitmapFactory.decodeResource(res,R.drawable.jump3 );
         Character3 = BitmapFactory.decodeResource(res,R.drawable.jump4 );
 
-        width= Character1.getWidth();
-        height= Character1.getHeight();
+        this.width= 100;
+        this.height= 100;
+        Character0 = Bitmap.createScaledBitmap(Character0, this.width, this.height, false);
 
-        width/=4;
-        height/=4;
-        width*=(int)screenRatioX;
-        height*=(int)screenRatioY;
-        Character1 = Bitmap.createScaledBitmap(Character1,width,height,false);
-        Character2 = Bitmap.createScaledBitmap(Character2,width,height,false);
+//        width*=(int)screenRatioX;
+//        height*=(int)screenRatioY;
+        Character1 = Bitmap.createScaledBitmap(Character1,this.width,this.height,false);
+        Character2 = Bitmap.createScaledBitmap(Character2,this.width,this.height,false);
 
         //shooting , slashing whatever you call it :P
         slash1 =BitmapFactory.decodeResource(res,R.drawable.walk1);
         slash2 =BitmapFactory.decodeResource(res,R.drawable.walk2);
 
-        slash1 = Bitmap.createScaledBitmap(slash1,width,height,false);
-        slash2 = Bitmap.createScaledBitmap(slash2,width,height,false);
+        slash1 = Bitmap.createScaledBitmap(slash1,this.width,this.height,false);
+        slash2 = Bitmap.createScaledBitmap(slash2,this.width,this.height,false);
 
 
         dead =BitmapFactory.decodeResource(res,R.drawable.walk1);
-        dead=Bitmap.createScaledBitmap(dead,width,height,false);
+        dead =Bitmap.createScaledBitmap(dead,this.width,this.height,false);
 
 
         y=screenY/2; // need to change

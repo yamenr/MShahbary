@@ -8,7 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
-public class Virus {    public int speed=20;
+public class Virus {
+    public int speed=20;
     public boolean wasHit = false;
     int x=0,y,width,height, VirusCounter =1;
     Bitmap virus1;
