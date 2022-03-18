@@ -27,6 +27,7 @@ public class Utilities {
 
 
                 if(user.charAt(i)<='A'||user.charAt(i)>='Z')
+                    if(user.charAt(i)<='a'||user.charAt(i)>='z')
                     if(user.charAt(i)!='.'&&user.charAt(i)!='_')
                         return false;
 

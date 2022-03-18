@@ -13,15 +13,15 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-    Point point = new Point();// to get screen size
-    getWindowManager().getDefaultDisplay().getSize(point);// this will pass our point object and now this point object contains the size of our screen on X-axis and Y-axis
+        Point point = new Point();// to get screen size
+        getWindowManager().getDefaultDisplay().getSize(point);// this will pass our point object and now this point object contains the size of our screen on X-axis and Y-axis
 
-    gameView = new GameView(this, point.x, point.y); // this is to get our size of the screen on Xand Y axis
-
-    setContentView(gameView); // this is to show our gameview
-}
+        gameView = new GameView(this, point.x, point.y); // this is to get our size of the screen on Xand Y axis
+        setContentView(gameView); // this is to show our gameview
+        new Thread(gameView).start();
+    }
 
     @Override
     protected void onPause() { // so when gameview pauses this also pauses

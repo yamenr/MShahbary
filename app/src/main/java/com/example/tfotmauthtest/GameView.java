@@ -5,7 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.Locale;
@@ -26,7 +28,7 @@ public class GameView extends SurfaceView implements  Runnable {
     private Mask[] masks;
     private Vaccine vaccine;
     //BOOLEAN
-    boolean isPlaying;
+    boolean isPlaying = true;
     private boolean isGameOver=false;
     private boolean isCollected=false;
     private boolean unlockvaccine=false;
@@ -50,20 +52,20 @@ public class GameView extends SurfaceView implements  Runnable {
         background2.x = screenX;
         paint = new Paint();
         character = new Character(this, screenY, getResources());
-        viruses=new Virus[2];
-        masks=new Mask[2];
+        viruses=new Virus[] {new Virus(getResources()), new Virus(getResources())};
+        masks=new Mask[] {new Mask(getResources()), new Mask(getResources())};
         vaccine= new Vaccine(this,screenY,getResources());
         slash= new slash(this,screenY,getResources());
         random=new Random();
-
     }
 
     @Override
     public void run() {
         while (isPlaying) {
-            update();
-            draw();
-            sleep();
+                Log.d("GameView", "run: Entered else");
+                update();
+                draw();
+                sleep();
         }
 
     }
@@ -104,41 +106,51 @@ public class GameView extends SurfaceView implements  Runnable {
 
     private void draw() {
         if (getHolder().getSurface().isValid()) {
+
             Canvas canvas = getHolder().lockCanvas();
-            canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
-            canvas.drawBitmap(background1.background, background2.x, background2.y, paint);
-
-            if(!character.isJumping) // if the character isn't jumping apply the standing position
-                canvas.drawBitmap(character.getCharacter(), character.x, character.y, paint);
-            else canvas.drawBitmap(character.CharacterJump(),character.x,character.y,paint); // if the character is jumping then apply the jumping animation
-            for(Virus virus:viruses) {
-                canvas.drawBitmap(virus.getVirus(), virus.x, virus.y, paint);
-            }
-            for(Mask mask:masks) {
-                canvas.drawBitmap(mask.getMask(), mask.x, mask.y, paint);
-            }
-            if(unlockvaccine) // if this happens means that the player gained enough score to finish the level, as a result the vaccine bitmap appears on the screen and can be collected
-            {
-                canvas.drawBitmap(vaccine.getVaccine(),vaccine.x,vaccine.y,paint);
-            }
-            if (isGameOver) {
-
-                isPlaying = false;
-                canvas.drawBitmap(character.getDead(),character.x,character.y,paint);
-                getHolder().unlockCanvasAndPost(canvas);
-
-
-                return;
-            }
-            if(isCollected){ // if mask is collected it disapears.
-                for(Mask mask:masks) {
-                    if(isCollected) { // to not  let more than 1 mask disappear at a time.
-                        canvas.drawBitmap(mask.getCollected(), mask.x, mask.y, paint);
-                        mask.x=-500;
-                    }
-                    isCollected=false;
+            if (canvas != null) {
+                Log.d("GameView", "draw: I am not null");
+                canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
+                canvas.drawBitmap(background1.background, background2.x, background2.y, paint);
+                if (!character.isJumping) // if the character isn't jumping apply the standing position
+                    canvas.drawBitmap(character.getCharacter(), character.x, character.y, paint);
+                else
+                    canvas.drawBitmap(character.CharacterJump(), character.x, character.y, paint); // if the character is jumping then apply the jumping animation
+                for (Virus virus : viruses) {
+                    canvas.drawBitmap(virus.getVirus(), virus.x, virus.y, paint);
                 }
+                for (Mask mask : masks) {
+                    canvas.drawBitmap(mask.getMask(), mask.x, mask.y, paint);
+                }
+                if (unlockvaccine) // if this happens means that the player gained enough score to finish the level, as a result the vaccine bitmap appears on the screen and can be collected
+                {
+                    canvas.drawBitmap(vaccine.getVaccine(), vaccine.x, vaccine.y, paint);
+                }
+                if (isGameOver) {
+
+                    isPlaying = false;
+                    canvas.drawBitmap(character.getDead(), character.x, character.y, paint);
+                    getHolder().unlockCanvasAndPost(canvas);
+
+
+                    return;
+                }
+                if (isCollected) { // if mask is collected it disapears.
+                    for (Mask mask : masks) {
+                        if (isCollected) { // to not  let more than 1 mask disappear at a time.
+                            canvas.drawBitmap(mask.getCollected(), mask.x, mask.y, paint);
+                            mask.x = -500;
+                        }
+                        isCollected = false;
+                    }
+
+                }
+                getHolder().unlockCanvasAndPost(canvas);
             }
+            else{
+                Log.d("GameView", "draw: canvas is null");
+            }
+
         }
     }
 
@@ -158,9 +170,9 @@ public class GameView extends SurfaceView implements  Runnable {
         if (character.isJumping)           // BEGIN: jump
             character.y -= 30 * screenRatioY;
         else{
-            while(character.y>-300)
+            while(character.y>500)
             {
-            character.y += 30 * screenRatioY; // this will make the charcter fall
+            character.y -= 30 * screenRatioY; // this will make the charcter fall
             }
             if(character.y<-300) // in case the character got below -300 on y axis it returns him on -300 on y axis
                 character.y=-300;
@@ -261,6 +273,7 @@ public class GameView extends SurfaceView implements  Runnable {
                  slash.x-=45;
             }
         }
+        Log.d("GameView", "update: Finished function");
     }
 
     public void resume() {

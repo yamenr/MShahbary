@@ -86,7 +86,7 @@ public class Signup extends AppCompatActivity {
                             Toast.makeText(Signup.this,R.string.successfully_registered, Toast.LENGTH_SHORT).show();//note: this R.string im not sure about it
                             // TODO: User class,
                             User user = new User(username, photo);
-                            fbs.getFire().collection("restaurants")
+                            fbs.getFire().collection("users")
                                     .add(user)
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override
@@ -208,5 +208,42 @@ public class Signup extends AppCompatActivity {
                                 }
                             });
         }
+    }
+    public void GotoLogin(View view) {
+        String username = etUsername.getText().toString();
+        String password = etPassword.getText().toString();
+
+        if (username.trim().isEmpty() || password.trim().isEmpty())
+        {
+            Toast.makeText(this, "Some fields are empty!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!utils.correctuser(username) || !utils.correctpass(password))
+        {
+            Toast.makeText(this, "Make sure that your username and password have the right conditions!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        fbs.getAuth().signInWithEmailAndPassword(username, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {//*check if it works
+
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Intent i = new Intent(Signup.this, MainActivity.class);
+                            startActivity(i);
+
+
+
+                        } else {
+
+                            // TODO: commands if failed
+                            Toast.makeText(Signup.this, "Username or password is empty!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+
+                });
+
     }
 }
