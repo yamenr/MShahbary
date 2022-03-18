@@ -112,10 +112,12 @@ public class GameView extends SurfaceView implements  Runnable {
                 Log.d("GameView", "draw: I am not null");
                 canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
                 canvas.drawBitmap(background1.background, background2.x, background2.y, paint);
-                if (!character.isJumping) // if the character isn't jumping apply the standing position
-                    canvas.drawBitmap(character.getCharacter(), character.x, character.y, paint);
-                else
-                    canvas.drawBitmap(character.CharacterJump(), character.x, character.y, paint); // if the character is jumping then apply the jumping animation
+                canvas.drawBitmap(character.getCharacter(), character.x, character.y, paint);
+
+
+
+
+
                 for (Virus virus : viruses) {
                     canvas.drawBitmap(virus.getVirus(), virus.x, virus.y, paint);
                 }
@@ -168,16 +170,16 @@ public class GameView extends SurfaceView implements  Runnable {
         // CHARACTER SECTION
 
         if (character.isJumping)           // BEGIN: jump
-            character.y -= 30 * screenRatioY;
+            character.y -= 20 * screenRatioY;
         else{
-            while(character.y>500)
+            while(character.y<50)
             {
             character.y -= 30 * screenRatioY; // this will make the charcter fall
             }
-            if(character.y<-300) // in case the character got below -300 on y axis it returns him on -300 on y axis
-                character.y=-300;
+            if(character.y<350) // in case the character got below -300 on y axis it returns him on -300 on y axis
+                character.y=350;
         }
-        if(character.y<150) // this is to limit his jump
+        if(character.y<50) // this is to limit his jump
             character.isJumping=false;
       /*  if (character.y < screenY / 2) //original: (character.y<0) the changes were to make the character jump height limit to the middle of the screen.
            character.y = 0;  I see no use for this yet */

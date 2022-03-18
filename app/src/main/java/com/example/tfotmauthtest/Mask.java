@@ -9,7 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
 public class Mask {
-    public int speed=20;
+    public int speed=5;
     public boolean wasCollected = false;
     int x=0,y,width,height;
     Bitmap mask1,mask2,dead;
