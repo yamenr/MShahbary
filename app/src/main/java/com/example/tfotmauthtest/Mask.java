@@ -15,7 +15,7 @@ public class Mask {
     Bitmap mask1,mask2,dead;
     Mask(Resources res)
     {
-        dead= BitmapFactory.decodeResource(res,R.drawable.walk1);
+
         mask1= BitmapFactory.decodeResource(res,R.drawable.maskk);
         mask1= BitmapFactory.decodeResource(res,R.drawable.maskk);
         width= mask1.getWidth();
@@ -30,7 +30,7 @@ public class Mask {
 
 
 
-        y=-height;  // TODO: I need to figure out how to set the mask on the axis I want
+        y=-height;
 
 
     }
@@ -41,8 +41,7 @@ public class Mask {
     Rect getCollisionShape (){
         return new Rect(x,y,x+width,y+height);
     }
-    Bitmap getCollected() {
-        return dead;
-    }
 
 }
+
+
