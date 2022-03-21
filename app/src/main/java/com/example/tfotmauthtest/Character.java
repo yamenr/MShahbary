@@ -18,16 +18,17 @@ public class Character {
         Character0 = BitmapFactory.decodeResource(res,R.drawable.og );
         Character1 = BitmapFactory.decodeResource(res,R.drawable.jump2 );
         Character2 = BitmapFactory.decodeResource(res,R.drawable.jump3 );
-        Character3 = BitmapFactory.decodeResource(res,R.drawable.jump4 );
+        Character3 = BitmapFactory.decodeResource(res, R.drawable.jump4);
 
-        this.width= 100;
-        this.height= 100;
+        this.width= 200;
+        this.height= 200;
         Character0 = Bitmap.createScaledBitmap(Character0, this.width, this.height, false);
-
-//        width*=(int)screenRatioX;
-//        height*=(int)screenRatioY;
         Character1 = Bitmap.createScaledBitmap(Character1,this.width,this.height,false);
         Character2 = Bitmap.createScaledBitmap(Character2,this.width,this.height,false);
+        Character3 = Bitmap.createScaledBitmap(Character3,this.width,this.height,false);
+
+        //        width*=(int)screenRatioX;
+//        height*=(int)screenRatioY;
 
         //shooting , slashing whatever you call it :P
         slash1 =BitmapFactory.decodeResource(res,R.drawable.walk1);
@@ -37,7 +38,7 @@ public class Character {
         slash2 = Bitmap.createScaledBitmap(slash2,this.width,this.height,false);
 
 
-        dead =BitmapFactory.decodeResource(res,R.drawable.walk1);
+        dead =BitmapFactory.decodeResource(res,R.drawable.dead);
         dead =Bitmap.createScaledBitmap(dead,this.width,this.height,false);
 
 
@@ -46,23 +47,25 @@ public class Character {
 
     }
     Bitmap getCharacter(){
-
+        if(!isJumping)
         return Character0;
+        return Character0;
+
 
     }
     Bitmap CharacterJump(){
 
-        if(jumpCounter ==1) {
-            jumpCounter++;
-            return Character1;
-        }
-        if(jumpCounter ==2) {
+        if(jumpCounter ==0) {
             jumpCounter++;
             return Character2;
         }
-        jumpCounter=1;
+      /*  if(jumpCounter ==1) {
+            jumpCounter++;
+            return Character2;
+        }
+        jumpCounter=0;
         return Character3;
-
+*/    return Character2;
     }
     Rect getCollisionShape (){
         return new Rect(x,y,x+width,y+height);
