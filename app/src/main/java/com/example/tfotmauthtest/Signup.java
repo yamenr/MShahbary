@@ -74,7 +74,7 @@ public class Signup extends AppCompatActivity {
 
         if (!utils.correctuser(username) || !utils.correctpass(password))
         {
-            Toast.makeText(this, "Incorrect email or password!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Make sure that your username and password have the right conditions!", Toast.LENGTH_LONG).show();
             return;
         }
 

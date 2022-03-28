@@ -29,6 +29,9 @@ public class GameView extends SurfaceView implements  Runnable {
     private Vaccine vaccine;
     private Retry retry;
     private Win win;
+    private Hearts heart1;
+    private Hearts heart2;
+    private Hearts heart3;
     //BOOLEAN
     boolean isPlaying = true;
     private boolean isGameOver=false;
@@ -38,12 +41,14 @@ public class GameView extends SurfaceView implements  Runnable {
     private boolean unlockslash=false;
     private boolean activateslash=false;
     boolean TimerAlreadyExists=false;
+    private boolean Retryisdrawn=false;
     // INT
     private int screenX, screenY;
     private int  hearts=5;
-    private int extrahearts=1;
+    private int extrahearts=0;
     private int score=0;
     private int viruslvl=0;
+    private int washit=0;
     private int heartsrequire=0;
 
     public GameView(GameActivity activity, int screenX, int screenY) { // note: I need explanation for the usage of this.
@@ -61,9 +66,15 @@ public class GameView extends SurfaceView implements  Runnable {
         viruses=new Virus[] {new Virus(getResources()), new Virus(getResources())};
         masks=new Mask[] {new Mask(getResources()), new Mask(getResources())};
         vaccine= new Vaccine(this,screenY,getResources());
+        heart1 = new Hearts(this, screenY, getResources());
+        heart2 = new Hearts(this, screenY, getResources());
+        heart3 = new Hearts(this, screenY, getResources());
         slash= new slash(this,screenY,getResources());
         random=new Random();
-        hearts=3;
+        hearts=4;
+        extrahearts=0;
+        viruslvl=0;
+        washit=-1;
     }
 
     @Override
@@ -102,6 +113,7 @@ public class GameView extends SurfaceView implements  Runnable {
         }.start();
     }
 
+
     private void sleep() {
         try {
             Thread.sleep(17);
@@ -117,12 +129,22 @@ public class GameView extends SurfaceView implements  Runnable {
             Canvas canvas = getHolder().lockCanvas();
             if (canvas != null) {
                 Log.d("GameView", "draw: I am not null");
+                // BACKGROUND SECTION
+
                 canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
                 canvas.drawBitmap(background1.background, background2.x, background2.y, paint);
-                if(!character.isJumping&&!isGameOver)
-                canvas.drawBitmap(character.getCharacter(), character.x, character.y, paint);
+                // HEARTS SECTION
+                canvas.drawBitmap(heart1.getHeart(), heart1.x, heart1.y, paint);
+                canvas.drawBitmap(heart2.getHeart(), heart2.x+130, heart2.y, paint);
+                canvas.drawBitmap(heart3.getHeart(), heart3.x+260, heart3.y, paint);
+
+
+                    // CHARACTER SECTION
                 if (character.isJumping&&!isGameOver)
                     canvas.drawBitmap(character.CharacterJump(), character.x, character.y, paint);
+                if(!character.isJumping&&!isGameOver)
+                canvas.drawBitmap(character.getCharacter(), character.x, character.y, paint);
+
 
 
 
@@ -146,9 +168,9 @@ public class GameView extends SurfaceView implements  Runnable {
                     canvas.drawBitmap(character.getDead(), character.x, character.y, paint);
                     canvas.drawBitmap(retry.retry, retry.x, retry.y, paint);
                     getHolder().unlockCanvasAndPost(canvas);
+                    Retryisdrawn=true;
 
-
-                    return;
+                   return;
                 }
                 if (isGameFinished) { // When game is finished
 
@@ -172,6 +194,7 @@ public class GameView extends SurfaceView implements  Runnable {
 
     private void update() {
         // BACKGROUND  SECTION
+
         background2.x -= 10 * screenRatioX;
         background1.x -= 10 * screenRatioX;
         if (background1.x + background1.background.getWidth() < 0) {
@@ -219,6 +242,7 @@ public class GameView extends SurfaceView implements  Runnable {
             if (Rect.intersects(virus.getCollisionShape(),character.getCollisionShape())) // virus touches the character
             {
                 Log.d("GameView", "Virus touched character ");
+                virus.x = -500;
 
                 if(character.isJumping==true) {
                     Log.d("GameView", "Virus touched character and enterd here(1) ");
@@ -230,39 +254,35 @@ public class GameView extends SurfaceView implements  Runnable {
 
                 }
                 if(hearts >=1&&!character.isJumping) {
-                    Log.d("GameView", "hearts are equal to 0 or less(3) ");
-                    virus.x = -500;
+                    washit++;
                     viruslvl+=1;
-                    hearts-=viruslvl;
+                   // hearts-=viruslvl;
+                    hearts-=1;
+                    Log.d("GameView", "hearts are equal to 2(1) ");
+                    if(washit==1) {
+                        Log.d("GameView", "hearts are equal to 2(2) ");
+                        heart3.x = -500;
+                    }
+                    else if(washit==2) {
+                        Log.d("GameView", "hearts are equal to 1 ");
+                        heart2.x = -500;
+                    }
 
-                    Log.d("GameView", "hearts are equal to 0 or less(4) ");
+
 
 
                 }
                 else if(hearts<=0)  {
                     Log.d("GameView", "hearts are equal to 0 or less (1) ");
+                    heart1.x=-500;
                     isGameOver = true;
                     Log.d("GameView", "hearts are equal to 0 or less (2) ");
-                    //  return;
+
 
                 }
 
 
-           /*      if(character.isJumping==false) {
-                     Log.d("GameView", "Character isn't jumping and we reached here ");
-                   if (extrahearts >= 1) {
-                        Log.d("GameView", "it Crashed when hearts>0 and jumping is false ");
-                        extrahearts = extrahearts - 4; // since every 5 masks are identical to 1 heart substracting 4 will make it work : for example: u have 10 masks which should save u from 3 hits 10-4 = 6 will save u from 2 hits 6-4=2 should save u from another hit 2-4=-2
-                    //    MaskTimer();
-                        if (extrahearts <= 0)  // according to the previous example if we got a negative result and we collect another mask after losing all masks it should save us but in the same case i mentioned in the example it won't work as it will add 1 mask to the current number of maks : 1+ -2 =-1 meaning it won't protect us
-                        {
-                            Log.d("GameView", "it Crashed when extra hearts=0 ");
-                            extrahearts = 0;}
 
-
-                    }  Needs some edit mai2
-                     hearts--;
-                 }*/
 
 
 
@@ -313,7 +333,7 @@ public class GameView extends SurfaceView implements  Runnable {
                 score+=10;
                 extrahearts++;
                // if(extrahearts==10)
-                    hearts++;
+                  //  hearts++;
 
                 //   MaskTimer();
                 Log.d("GameView", "Mask  finished touching character ");
@@ -324,7 +344,7 @@ public class GameView extends SurfaceView implements  Runnable {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // VACCINE SECTION
-        if(score>=50)
+        if(score>=100)
         {
             Log.d("GameView", "Points are over 50 ");
             if(Rect.intersects(character.getCollisionShape(),vaccine.getCollisionShape())) {
@@ -379,20 +399,21 @@ public class GameView extends SurfaceView implements  Runnable {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
-                if (event.getX() < (screenX/2) ){
-                    character.isJumping=true;
-                }
-                if(isGameOver&&event.getX()==retry.x&&getY()==retry.y)
+                if(isGameOver&&event.getX()>=retry.x&&event.getX()<=retry.x+80&&event.getY()<=retry.y&&event.getY()>=retry.y+75&&Retryisdrawn)
                 {
                     Log.d("GameView", "clicked retry");
                     run();
                 }
+              else  if (event.getX() < (screenX/2) ){
+                    character.isJumping=true;
+                }
+
                 break;
             case MotionEvent.ACTION_UP:
                 character.isJumping=false;
 
-                if(event.getX()>screenX/2)
-                 activateslash=true;
+           //     if(event.getX()>screenX/2)
+           //      activateslash=true;
                 break;
         }
         return true;

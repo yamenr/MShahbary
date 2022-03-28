@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
         android:backgroundTint="#E40000"
-        android:onClick="GotoLogin"
+        android:onClick="signup"
         android:text="creat account"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
