@@ -102,7 +102,7 @@ public class Signup extends AppCompatActivity {
                                     });
                         } else {
                             // TODO: what to do if fails
-
+                            Log.e(TAG, "Signup FAILED", task.getException());
                         }
                     }
                 });
