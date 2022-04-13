@@ -9,12 +9,19 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class GameView extends SurfaceView implements  Runnable {
-
+    private static final String TAG = "GameView";
+    private FirebaseServices fbs;
     private Thread thread;
     private Random random;
     public static float screenRatioX, screenRatioY;
@@ -52,6 +59,7 @@ public class GameView extends SurfaceView implements  Runnable {
 
     public GameView(GameActivity activity, int screenX, int screenY) { // note: I need explanation for the usage of this.
         super(activity);
+        fbs = FirebaseServices.getInstance();
         this.screenX = screenX;
         this.screenY = screenY;
         screenRatioX = 1920f / screenX;
@@ -181,6 +189,24 @@ public class GameView extends SurfaceView implements  Runnable {
                     canvas.drawBitmap(retry.retry, retry.x, retry.y, paint);
                     getHolder().unlockCanvasAndPost(canvas);
                     Retryisdrawn=true;
+                    // TODO: add user score to database (Firebase - Firestore)
+                    String username = fbs.getAuth().getCurrentUser().getEmail();
+                    String photo = "";
+                    User user= new User(username, photo, score); // get user
+                    fbs.getFire().collection("restaurants")
+                            .add(user)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error adding document", e);
+                                }
+                            });
 
                    return;
                 }

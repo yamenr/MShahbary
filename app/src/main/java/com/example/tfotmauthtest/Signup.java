@@ -46,9 +46,10 @@ public class Signup extends AppCompatActivity {
 
     private void connectComponents() {
         ImageView photo = findViewById(R.id.ivSignup);
+        /*
         Picasso.with(this)
                 .load("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-                .into(photo);
+                .into(photo); */
         etUsername = findViewById(R.id.etUsernameSignup);
         etPassword = findViewById(R.id.etPasswordSignup);
         utils = Utilities.getInstance();
@@ -85,7 +86,7 @@ public class Signup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(Signup.this,R.string.successfully_registered, Toast.LENGTH_SHORT).show();//note: this R.string im not sure about it
                             // TODO: User class,
-                            User user = new User(username, photo);
+                            User user = new User(username, photo,0);
                             fbs.getFire().collection("users")
                                     .add(user)
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

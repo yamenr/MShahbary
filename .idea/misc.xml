@@ -3,13 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/user/AndroidStudioProjects/MShahbary/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2005" />
+        <entry key="..\:/Users/User/Downloads/TFOTMauthtest/app/src/main/res/layout/activity_top_scores.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/User/Downloads/TFOTMauthtest/app/src/main/res/layout/activity_tutorial1.xml" value="0.246875" />
+        <entry key="..\:/Users/User/Downloads/TFOTMauthtest/app/src/main/res/layout/score_row.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MShahbary/app/src/main/res/layout/activity_aboora.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MShahbary/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MShahbary/app/src/main/res/layout/activity_main_game.xml" value="0.18" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MShahbary/app/src/main/res/layout/activity_selection.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MShahbary/app/src/main/res/layout/activity_signup.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/MShahbary/app/src/main/res/layout/activity_test.xml" value="0.22" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/MShahbary/app/src/main/res/layout/activity_test.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MShahbary/app/src/main/res/layout/activity_tutorial1.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MShahbary/app/src/main/res/layout/activity_tutorial2.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/MShahbary/app/src/main/res/layout/activity_tutorial3.xml" value="0.20416666666666666" />

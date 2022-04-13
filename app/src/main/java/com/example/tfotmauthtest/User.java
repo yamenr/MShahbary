@@ -2,19 +2,16 @@ package com.example.tfotmauthtest;
 
 public class User {
     private String username;
-  //  private String score;
+    private int score;
     private String pfp;
-
-
 
     public User() {
     }
 
-    public User(String username,  String pfp/*,RestCat category*/) {
+    public User(String username,  String pfp,int score) {
         this.username = username;
-    //    this.score = score;
+        this.score = 0;
         this.pfp = pfp;
-        // this.category = category;
     }
 
     public String getUsername() {
@@ -25,15 +22,13 @@ public class User {
         this.username = name;
     }
 
-  /*  public String getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setDescription(String description) {
+    public void setScore(int score) {
         this.score = score;
     }
-    */
-
 
     public String getPfp() {
         return pfp;

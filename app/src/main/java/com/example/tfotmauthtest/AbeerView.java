@@ -22,7 +22,7 @@ public class AbeerView extends View {
     public AbeerView(Context context) {
         super(context);
 
-        grass= BitmapFactory.decodeResource(getResources(),R.drawable.background);
+        grass= BitmapFactory.decodeResource(getResources(),R.drawable.backgroundd);
         abeer[0]=BitmapFactory.decodeResource(getResources(),R.drawable.walk1);
         abeer[1]=BitmapFactory.decodeResource(getResources(),R.drawable.walk2);
 
