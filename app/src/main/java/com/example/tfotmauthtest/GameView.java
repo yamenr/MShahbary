@@ -1,13 +1,12 @@
 package com.example.tfotmauthtest;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.Locale;
@@ -22,28 +21,33 @@ public class GameView extends SurfaceView implements  Runnable {
     // OBJECTS
     private Background background1, background2;
     private Paint paint;
-    private Character character;
-    private slash slash;
+    Character character;
+    private Slash slash;
     private Virus[] viruses;
     private Mask[] masks;
     private Vaccine vaccine;
-    private Retry retry;
+    Retry retry;
     private Win win;
+    Hearts heart1;
+    Hearts heart2;
+    Hearts heart3;
     //BOOLEAN
     boolean isPlaying = true;
-    private boolean isGameOver=false;
-    private boolean isGameFinished=false;
+    boolean isGameOver=false;
+    boolean isGameFinished=false;
     private boolean isCollected=false;
     private boolean unlockvaccine=false;
     private boolean unlockslash=false;
-    private boolean activateslash=false;
+    boolean activateslash=false;
     boolean TimerAlreadyExists=false;
+    private boolean Retryisdrawn=false;
     // INT
-    private int screenX, screenY;
-    private int  hearts=5;
-    private int extrahearts=1;
+    int screenX, screenY;
+    private int  hearts=4;
+    private int extrahearts=0;
     private int score=0;
     private int viruslvl=0;
+    private int washit=-1;
     private int heartsrequire=0;
 
     public GameView(GameActivity activity, int screenX, int screenY) { // note: I need explanation for the usage of this.
@@ -57,13 +61,21 @@ public class GameView extends SurfaceView implements  Runnable {
         background2 = new Background(screenX, screenY, getResources());
         background2.x = screenX;
         paint = new Paint();
+        paint.setTextSize(30);
         character = new Character(this, screenY, getResources());
         viruses=new Virus[] {new Virus(getResources()), new Virus(getResources())};
         masks=new Mask[] {new Mask(getResources()), new Mask(getResources())};
         vaccine= new Vaccine(this,screenY,getResources());
-        slash= new slash(this,screenY,getResources());
+        heart1 = new Hearts(this, screenY, getResources());
+        heart2 = new Hearts(this, screenY, getResources());
+        heart3 = new Hearts(this, screenY, getResources());
+        slash= new Slash(this,screenY,getResources());
         random=new Random();
-        hearts=3;
+        hearts=4;
+        extrahearts=0;
+        viruslvl=0;
+        washit=-1;
+        this.win= new Win(screenX, screenY, getResources());
     }
 
     @Override
@@ -101,6 +113,11 @@ public class GameView extends SurfaceView implements  Runnable {
             }
         }.start();
     }
+    @Override
+    public boolean performClick() {
+        super.performClick();
+        return true;
+    }
 
     private void sleep() {
         try {
@@ -117,12 +134,29 @@ public class GameView extends SurfaceView implements  Runnable {
             Canvas canvas = getHolder().lockCanvas();
             if (canvas != null) {
                 Log.d("GameView", "draw: I am not null");
+                // BACKGROUND SECTION
+
                 canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
                 canvas.drawBitmap(background1.background, background2.x, background2.y, paint);
-                if(!character.isJumping&&!isGameOver)
-                canvas.drawBitmap(character.getCharacter(), character.x, character.y, paint);
+                // HEARTS SECTION
+
+                    canvas.drawBitmap(heart1.getHeart(), heart1.x, heart1.y, paint);
+                    canvas.drawBitmap(heart2.getHeart(), heart2.x + 130, heart2.y, paint);
+                    canvas.drawBitmap(heart3.getHeart(), heart3.x + 260, heart3.y, paint);
+
+
+                    // CHARACTER SECTION
                 if (character.isJumping&&!isGameOver)
                     canvas.drawBitmap(character.CharacterJump(), character.x, character.y, paint);
+                if(!character.isJumping&&!isGameOver)
+                canvas.drawBitmap(character.getCharacter(), character.x, character.y, paint);
+                // SLASH SECTION
+                if (unlockslash)
+                {
+                    canvas.drawBitmap(slash.getSlash(), slash.x, slash.y, paint);
+                    Log.d("GameView", "slash is drawn");
+                }
+
 
 
 
@@ -146,21 +180,21 @@ public class GameView extends SurfaceView implements  Runnable {
                     canvas.drawBitmap(character.getDead(), character.x, character.y, paint);
                     canvas.drawBitmap(retry.retry, retry.x, retry.y, paint);
                     getHolder().unlockCanvasAndPost(canvas);
+                    Retryisdrawn=true;
 
-
-                    return;
+                   return;
                 }
                 if (isGameFinished) { // When game is finished
-
+                    Log.d("GameView", "Win1");
                     isPlaying = false;
-
                     canvas.drawBitmap(win.win, win.x, win.y, paint);
+                    Log.d("GameView", "win is drawn");
                     getHolder().unlockCanvasAndPost(canvas);
-
+                    Log.d("GameView", "finished drawing win");
 
                     return;
                 }
-
+                canvas.drawText("Score: " + score, 100,150, paint);
                 getHolder().unlockCanvasAndPost(canvas);
             }
             else{
@@ -172,6 +206,7 @@ public class GameView extends SurfaceView implements  Runnable {
 
     private void update() {
         // BACKGROUND  SECTION
+
         background2.x -= 10 * screenRatioX;
         background1.x -= 10 * screenRatioX;
         if (background1.x + background1.background.getWidth() < 0) {
@@ -216,53 +251,65 @@ public class GameView extends SurfaceView implements  Runnable {
 
         // VIRUS SECTION
         for (Virus virus: viruses){
+            // Virus touches slash
+            if(Rect.intersects(virus.getCollisionShape(),slash.getCollisionShape())){
+                Log.d("GameView", "virus touched slash");
+                virus.x=-500;
+            }
             if (Rect.intersects(virus.getCollisionShape(),character.getCollisionShape())) // virus touches the character
             {
                 Log.d("GameView", "Virus touched character ");
+                virus.x = -500;
+
 
                 if(character.isJumping==true) {
                     Log.d("GameView", "Virus touched character and enterd here(1) ");
                     virus.x = -500;
-                    score+=10;
+                    score+=5;
 
                     Log.d("GameView", "Virus touched character and enterd here(2) ");
 
 
                 }
-                if(hearts >=1&&!character.isJumping) {
-                    Log.d("GameView", "hearts are equal to 0 or less(3) ");
-                    virus.x = -500;
-                    viruslvl+=1;
-                    hearts-=viruslvl;
+                if(hearts >=0&&!character.isJumping) {
+                    washit+=1;
+                 //   viruslvl+=1;
+                   // hearts-=viruslvl;
+                    hearts--;
 
-                    Log.d("GameView", "hearts are equal to 0 or less(4) ");
+                    Log.d("GameView", "hearts are equal to 2(1) ");
+                    if(washit==0) {
+                        Log.d("GameView", "hearts are equal to 2(2) ");
+                        heart3.x = -500;
+                    }
+                    else if(heart3.x==-500&&washit>1) {
+                        Log.d("GameView", "hearts are equal to 1 ");
+                        heart2.x = -500;
+                    }
+
+
+
+
 
 
                 }
-                else if(hearts<=0)  {
+                else if(hearts<0)  {
                     Log.d("GameView", "hearts are equal to 0 or less (1) ");
-                    isGameOver = true;
+
+                    if(heart1.x==-500&&!character.isJumping)
+                     isGameOver = true;
+                    if(heart2.x==-500) {
+                        Log.d("GameView", "hearts are equal to 0 ");
+                        heart1.x = -500;
+                        break;
+                    }
                     Log.d("GameView", "hearts are equal to 0 or less (2) ");
-                    //  return;
+
 
                 }
 
 
-           /*      if(character.isJumping==false) {
-                     Log.d("GameView", "Character isn't jumping and we reached here ");
-                   if (extrahearts >= 1) {
-                        Log.d("GameView", "it Crashed when hearts>0 and jumping is false ");
-                        extrahearts = extrahearts - 4; // since every 5 masks are identical to 1 heart substracting 4 will make it work : for example: u have 10 masks which should save u from 3 hits 10-4 = 6 will save u from 2 hits 6-4=2 should save u from another hit 2-4=-2
-                    //    MaskTimer();
-                        if (extrahearts <= 0)  // according to the previous example if we got a negative result and we collect another mask after losing all masks it should save us but in the same case i mentioned in the example it won't work as it will add 1 mask to the current number of maks : 1+ -2 =-1 meaning it won't protect us
-                        {
-                            Log.d("GameView", "it Crashed when extra hearts=0 ");
-                            extrahearts = 0;}
 
-
-                    }  Needs some edit mai2
-                     hearts--;
-                 }*/
 
 
 
@@ -286,10 +333,7 @@ public class GameView extends SurfaceView implements  Runnable {
                 virus.wasHit=false;
                 // Virus touches character
 
-                // Virus touches slash
-                if(Rect.intersects(virus.getCollisionShape(),slash.getCollisionShape())){
-                    virus.x=-500;
-                }
+
             }
 
         }
@@ -310,10 +354,10 @@ public class GameView extends SurfaceView implements  Runnable {
             {
                 Log.d("GameView", "Mask  did touch character ");
                 mask.x=-600;
-                score+=10;
+                score+=5;
                 extrahearts++;
                // if(extrahearts==10)
-                    hearts++;
+                  //  hearts++;
 
                 //   MaskTimer();
                 Log.d("GameView", "Mask  finished touching character ");
@@ -324,9 +368,9 @@ public class GameView extends SurfaceView implements  Runnable {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // VACCINE SECTION
-        if(score>=50)
+        if(score>=100)
         {
-            Log.d("GameView", "Points are over 50 ");
+            Log.d("GameView", "Points are over 100 ");
             if(Rect.intersects(character.getCollisionShape(),vaccine.getCollisionShape())) {
                 Log.d("GameView", "Player touched vaccine ");
                 isGameFinished=true; // this when you finish the level
@@ -345,17 +389,21 @@ public class GameView extends SurfaceView implements  Runnable {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // SLASH  SECTION
-        if(score>=250)
+        if(score>=100)
         {
             unlockslash=true;
+            Log.d("GameView", "unlocked slash");
             if(unlockslash&&activateslash)
             {
-                 slash.x= character.x;
-                 slash.y= character.y;
-                 slash.x-=45;
+                Log.d("GameView", "unlocked & activated slash");
+
+                 slash.y= 80;
+                 slash.x+=5;
             }
         }
-        Log.d("GameView", "update: Finished function");
+        // SCORE SECTION
+
+
     }
 
     public void resume() {
@@ -375,27 +423,38 @@ public class GameView extends SurfaceView implements  Runnable {
         }
 
     }
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                if (event.getX() < (screenX/2) ){
-                    character.isJumping=true;
-                }
-                if(isGameOver&&event.getX()==retry.x&&getY()==retry.y)
-                {
-                    Log.d("GameView", "clicked retry");
-                    run();
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                character.isJumping=false;
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        switch (event.getAction()){
+//            case MotionEvent.ACTION_DOWN:
+////                Log.d("GameViewTouch", "eventX" + String.valueOf(event.getX()));
+////                Log.d("GameViewTouch", "retryX" +String.valueOf(retry.x));
+////                Log.d("GameViewTouch", "eventY" + String.valueOf(event.getY()));
+////                Log.d("GameViewTouch", "retryY" + String.valueOf(retry.y));
+////                Log.d("GameViewTouch", String.valueOf(isGameOver));
+//                if(isGameOver&&event.getX()>=retry.x&&event.getX()<=retry.x+200&&event.getY()>=retry.y&&event.getY()<=retry.y+200)
+//                {
+//                    Log.d("GameView", "clicked retry");
+//                    run();
+//                }
+//              else  if (event.getX() < (screenX/2) ){
+//                    character.isJumping=true;
+//                }
+//
+//
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                character.isJumping=false;
+//                if (heart1.x==-500 ){
+//                    activateslash=true;
+//                    Log.d("GameView", "activated slash");
+//                }
+//
+//           //     if(event.getX()>screenX/2)
+//           //      activateslash=true;
+//                break;
+//        }
+//        return true;
 
-                if(event.getX()>screenX/2)
-                 activateslash=true;
-                break;
-        }
-        return true;
-
-    }
+//    }
 }

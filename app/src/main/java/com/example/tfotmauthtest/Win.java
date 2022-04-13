@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 public class Win {
-    int y=100,x=500,wdith,height;
+    int y=155,x=645,wdith,height;
     Bitmap win;
 
     Win(int screenX, int screenY, Resources res){
@@ -13,5 +13,11 @@ public class Win {
         this.wdith=200;
         this.height=100;
         win = Bitmap.createScaledBitmap(win, this.wdith,this.height,false);
+    }
+
+    Bitmap getWin(){
+
+        return win;
+
     }
 }
