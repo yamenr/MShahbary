@@ -51,4 +51,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="179dp"
+        android:layout_height="71dp"
+        android:layout_marginTop="1dp"
+        android:backgroundTint="#E40000"
+        android:text="Scores"
+        android:onClick="GoToScores"
+        android:textColor="#FAFAFA"
+        android:textColorHighlight="#00FFFFFF"
+        android:textColorLink="#D60606"
+        app:layout_constraintStart_toStartOf="@id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
+        tools:layout_editor_absoluteX="275dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

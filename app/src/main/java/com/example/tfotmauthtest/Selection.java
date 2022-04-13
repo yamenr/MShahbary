@@ -30,4 +30,9 @@ public class Selection extends AppCompatActivity {
         Intent i = new Intent(this, Tutorial1.class) ;
         startActivity(i);
     }
+
+    public void GoToScores(View view) {
+        Intent i = new Intent(this, TopScoresActivity.class) ;
+        startActivity(i);
+    }
 }

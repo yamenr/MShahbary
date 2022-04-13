@@ -19,4 +19,8 @@ public class Tutorial1 extends AppCompatActivity {
         startActivity(i);
 
     }
+    public void GotoPrevious(View view) {
+        Intent i = new Intent(this, Selection.class);
+        startActivity(i);
+    }
 }

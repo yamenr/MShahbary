@@ -24,7 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#E40000"
+        android:onClick="GotoPage2"
         android:text="Next page"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -42,5 +44,16 @@
         app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.044"
-        app:srcCompat="@drawable/tutoriall1" />
+        app:srcCompat="@drawable/warning" />
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:backgroundTint="#E40000"
+        android:text=" previous"
+        android:onClick="GotoPrevious"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintStart_toStartOf="@id/button4" />
 </androidx.constraintlayout.widget.ConstraintLayout>

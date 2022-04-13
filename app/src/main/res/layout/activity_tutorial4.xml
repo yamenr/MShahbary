@@ -4,6 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".Tutorial4">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="350dp"
+        android:layout_height="400dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.027"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.498"
+        app:srcCompat="@drawable/starto" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#E40000"
+        android:text="previous"
+        android:onClick="GotoPrevious"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="350dp"
+        android:layout_height="450dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.956"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.044"
+        app:srcCompat="@drawable/warning4" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

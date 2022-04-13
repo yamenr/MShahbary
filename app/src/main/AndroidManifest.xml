@@ -10,7 +10,10 @@
         android:supportsRtl="true">
         <activity
             android:name=".TopScoresActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:screenOrientation="landscape"
+            />
         <activity
             android:name=".Aboora"
             android:exported="false"
@@ -19,14 +22,17 @@
         <activity
             android:name=".Tutorial4"
             android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light"
             android:screenOrientation="landscape" />
         <activity
             android:name=".Tutorial3"
             android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light"
             android:screenOrientation="landscape" />
         <activity
             android:name=".Tutorial2"
             android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light"
             android:screenOrientation="landscape" />
         <activity
             android:name=".Signup"
@@ -36,7 +42,9 @@
         <activity
             android:name=".Tutorial1"
             android:exported="false"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light"
+            />
         <activity
             android:name=".Test"
             android:exported="false" />
