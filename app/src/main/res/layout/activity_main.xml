@@ -5,75 +5,9 @@
     android:id="@+id/Login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
-    android:backgroundTint="#040000"
+    android:background="@drawable/logo"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/etUsernameMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="230dp"
 
-        android:layout_marginTop="50dp"
-        android:backgroundTint="#E40000"
-        android:ems="12"
-        android:hint="username"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/etPasswordMain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="230dp"
-        android:backgroundTint="#E40000"
-        android:ems="12"
-        android:hint="pass"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUsernameMain" />
-
-    <Button
-        android:id="@+id/btnLoginMain"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="250dp"
-        android:layout_marginTop="54dp"
-        android:backgroundTint="#E40000"
-        android:onClick="login"
-
-        android:text="Login"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordMain" />
-
-    <Button
-        android:id="@+id/btnSelectionMain"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="250dp"
-        android:backgroundTint="#E40000"
-        android:text="Selection Page"
-        android:onClick="gotoSelection"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLoginMain" />
-
-    <Button
-        android:id="@+id/btnSignupMain"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="250dp"
-        android:backgroundTint="#E40000"
-        android:text="Signup"
-        android:onClick="GotoSignUp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSelectionMain" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

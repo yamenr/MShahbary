@@ -22,7 +22,7 @@ public class Selection extends AppCompatActivity {
     }
 
     public void GotoLogin(View view) {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, StarttActivity.class);
         startActivity(i);
     }
 

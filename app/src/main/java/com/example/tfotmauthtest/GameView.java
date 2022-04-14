@@ -1,6 +1,8 @@
 package com.example.tfotmauthtest;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -21,11 +23,13 @@ import java.util.concurrent.TimeUnit;
 
 public class GameView extends SurfaceView implements  Runnable {
     private static final String TAG = "GameView";
+    private SharedPreferences prefs;
     private FirebaseServices fbs;
     private Thread thread;
     private Random random;
     public static float screenRatioX, screenRatioY;
     // OBJECTS
+    private SoundPlayer sound;
     private Background background1, background2;
     private Paint paint;
     Character character;
@@ -49,6 +53,7 @@ public class GameView extends SurfaceView implements  Runnable {
     boolean TimerAlreadyExists=false;
     private boolean Retryisdrawn=false;
     // INT
+    int jumpcounter=0;
     int screenX, screenY;
     private int  hearts=4;
     private int extrahearts=0;
@@ -59,6 +64,8 @@ public class GameView extends SurfaceView implements  Runnable {
 
     public GameView(GameActivity activity, int screenX, int screenY) { // note: I need explanation for the usage of this.
         super(activity);
+        prefs = activity.getSharedPreferences("game", Context.MODE_PRIVATE);
+        sound = new SoundPlayer(activity);
         fbs = FirebaseServices.getInstance();
         this.screenX = screenX;
         this.screenY = screenY;
@@ -84,6 +91,7 @@ public class GameView extends SurfaceView implements  Runnable {
         viruslvl=0;
         washit=-1;
         this.win= new Win(screenX, screenY, getResources());
+         jumpcounter=0;
     }
 
     @Override
@@ -162,6 +170,7 @@ public class GameView extends SurfaceView implements  Runnable {
                 if (unlockslash)
                 {
                     canvas.drawBitmap(slash.getSlash(), slash.x, slash.y, paint);
+                    //sound.playSlashSound();
                     Log.d("GameView", "slash is drawn");
                 }
 
@@ -247,12 +256,18 @@ public class GameView extends SurfaceView implements  Runnable {
 
         if (character.isJumping)           // movement when jumping
         {
+            jumpcounter++;
+            if(jumpcounter==1)
+            sound.playJumpSound();
             character.y -= 5 * screenRatioY;
             character.x+=5*screenRatioX;
+
+
+
         }
         if(character.y>=350&&character.y<=400&&!character.isJumping&& character.x>=200) // when the character touches the ground he steps back
         {
-            character.x-=5*screenRatioX;
+            character.x-=5* screenRatioX;
         }
         if(character.x>=screenX) // if the character reaches the right edge of the screen he goes back to the left edge
             character.x=30;
@@ -262,6 +277,7 @@ public class GameView extends SurfaceView implements  Runnable {
                 character.isJumping=false;
             }
             if(!character.isJumping)
+                jumpcounter=0;
                 character.y-=1* screenRatioY; // to make the character fall
             if(character.y<350&&character.isJumping==false) // in case the character got below -300 on y axis it returns him on -300 on y axis
                 character.y=350;
@@ -287,9 +303,21 @@ public class GameView extends SurfaceView implements  Runnable {
                 Log.d("GameView", "Virus touched character ");
                 virus.x = -500;
 
+                if(character.isJumping!=true) {
+                    Log.d("GameView", "Virus touched character and enterd here(1) ");
+                    sound.playWrongSound();
+                    virus.x = -500;
+                    score-=5;
+
+                    Log.d("GameView", "Virus touched character and enterd here(2) ");
+
+
+                }
+
 
                 if(character.isJumping==true) {
                     Log.d("GameView", "Virus touched character and enterd here(1) ");
+                    sound.playCollectSound();
                     virus.x = -500;
                     score+=5;
 
@@ -379,6 +407,7 @@ public class GameView extends SurfaceView implements  Runnable {
             if (Rect.intersects(mask.getCollisionShape(),character.getCollisionShape()))
             {
                 Log.d("GameView", "Mask  did touch character ");
+                sound.playCollectSound();
                 mask.x=-600;
                 score+=5;
                 extrahearts++;

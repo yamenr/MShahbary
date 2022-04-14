@@ -5,8 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,105 +26,44 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+private SoundPlayer sound;
 
-    private EditText etUsername,etPassword;
-    private Utilities utils;
-    private FirebaseServices fbs;
-    private Uri filePath;
-    private StorageReference storageReference;
+Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-        connectComponents();
-    }
-
-    private void connectComponents() {
-        etUsername = findViewById(R.id.etUsernameMain);
-        etPassword = findViewById(R.id.etPasswordMain);
-        utils = Utilities.getInstance();
-        fbs = FirebaseServices.getInstance();
-    }
-
-    public void gotoSelection(View view) {
-        Intent i = new Intent(this, Selection.class);
-        startActivity(i);
-    }
-
-    public void login(View view) {
-        String username = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
-
-        if (username.trim().isEmpty() || password.trim().isEmpty())
-        {
-            Toast.makeText(this, "Some fields are empty!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (!utils.correctuser(username) || !utils.correctpass(password))
-        {
-            Toast.makeText(this, "Incorrect username or password!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        fbs.getAuth().signInWithEmailAndPassword(username, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {//*check if it works
-
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Intent i = new Intent(MainActivity.this, Selection.class);
-                            startActivity(i);
+        sound = new SoundPlayer(this);
 
 
+        timer= new Timer();
 
-                        } else {
-
-                            // TODO: commands if failed
-                            Toast.makeText(MainActivity.this, "Username or password is empty!", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
-
-                });
+        timer.schedule(new TimerTask() {
 
 
-
-    }
-
-
-
-    /*public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == 40) {
-                if (resultCode == Activity.RESULT_OK) {
-                    if (data != null) {
-                        try {
-                            filePath = data.getData();
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                            ivSignup.setBackground(null);
-                            ivSignup.setImageBitmap(bitmap);
-                            uploadImage();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } else if (resultCode == Activity.RESULT_CANCELED)  {
-                    Toast.makeText(this, "Canceled", Toast.LENGTH_SHORT).show();
-                }
+            @Override
+            public void run() {
+                GotoStartPage();
             }
-        } */
-
-
-
-    public void GotoSignUp(View view) {
-
-        Intent i = new Intent(this, Signup.class);
-        startActivity(i);
+        },3000);
     }
+ public void PlayOpeniningSound(){
+     sound.playOpeningSound();
+ }
+
+
+    public void GotoStartPage() {
+        Intent i = new Intent(this, StarttActivity.class);
+        startActivity(i);
+
+    }
+
 }
