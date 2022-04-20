@@ -202,20 +202,25 @@ public class GameView extends SurfaceView implements  Runnable {
                     String username = fbs.getAuth().getCurrentUser().getEmail();
                     String photo = "";
                     User user= new User(username, photo, score); // get user
-                    fbs.getFire().collection("restaurants")
+
+                    fbs.getFire().collection("users")
                             .add(user)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                    Log.i("GameView", "successful");
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.w(TAG, "Error adding document", e);
+                                    Log.i("GameView", " successful? Hah you wish!");
                                 }
                             });
+                    Log.i("GameView", " successful? Hah you wish!");
+
 
                    return;
                 }

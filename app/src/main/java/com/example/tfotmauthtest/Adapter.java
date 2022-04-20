@@ -49,8 +49,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>{
     @Override
     public void onBindViewHolder(Adapter.ViewHolder holder, int position) {
         User user = mData.get(position);
+
         holder.tvName.setText(user.getUsername());
-        Picasso.get().load(user.getPfp()).into(holder.ivPhoto);
+        holder.tvScore.setText(String.valueOf(user.getScore()));
+        //Picasso.get().load(user.getPfp()).into(holder.ivPhoto);
     }
 
     // total number of rows

@@ -30,16 +30,20 @@ public class TopScoresActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top_scores);
 
+        Log.i("ggg", "entered top scores");
+
         fbs = FirebaseServices.getInstance();
         users = new ArrayList<User>();
         readData();
         myCallback = new MyCallback() {
             @Override
             public void onCallback(List<User> restsList) {
+                Log.i("ggg", "recycler settings");
                 RecyclerView recyclerView = findViewById(R.id.rvTopScores);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 adapter = new Adapter(getApplicationContext(), users);
                 recyclerView.setAdapter(adapter);
+                Log.i("ggg", "finished recycler settings");
             }
         };
 
@@ -66,8 +70,11 @@ public class TopScoresActivity extends AppCompatActivity{
                                 }
 
                                 myCallback.onCallback(users);
+                                Log.i("ggg", "entered users in call back");
                             } else {
                                 Log.e("AllRestActivity: readData()", "Error getting documents.", task.getException());
+                                Log.i("ggg", "failed!");
+                                Log.i("ggg", task.getException().getMessage());
                             }
                         }
                     });
